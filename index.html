@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch ToDo</title>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+    * {
+      font-family: poppins;
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      font-weight: 400;
+    }
+
+    body {
+      width: 100vw;
+      height: auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      align-content: center;
+    }
+
+    a {
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 30px;
+      color: black;
+      padding: 5px 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-content: center;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 80vw;
+    }
+    .list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      align-content: center;
+      padding: 1% 2%;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      width: 70%;
+    }
+    .list > img {
+      width: 20px;
+    }
+    .list > h1 {
+      font-size: 20px;
+    }
+  </style>
+  <body>
+    <a href="#" class="FetchBtn">Fetch</a>
+    <div class="container"></div>
+  </body>
+
+  <script>
+    let btn = document.querySelector("a");
+    let container = document.querySelector(".container");
+    btn.addEventListener("click", async function () {
+      try {
+        let data = await fetch("https://jsonplaceholder.typicode.com/todos");
+        let realData = await data.json();
+        showData(realData);
+        console.log(realData);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    async function showData(data) {
+      // Clear existing content of container
+      container.innerHTML = "";
+      // Iterate over each item in data
+      data.forEach((ele) => {
+        // Create a new div for each item
+        let div = document.createElement("div");
+        div.classList.add("list");
+
+        // Create h1 element for title
+        let h1 = document.createElement("h1");
+        h1.textContent = ele.title;
+
+        // Create img element for completed status
+        let img = document.createElement("img");
+        img.src = ele.completed
+          ? "https://www.pngitem.com/pimgs/m/528-5284486_done-icon-png-transparent-png.png"
+          : "https://cdn-icons-png.flaticon.com/512/929/929416.png";
+        img.alt = "Link corrupted sorry";
+
+        // Append h1 and img to div
+        div.appendChild(h1);
+        div.appendChild(img);
+
+        // Append div to container
+        container.appendChild(div);
+      });
+    }
+  </script>
+</html>
